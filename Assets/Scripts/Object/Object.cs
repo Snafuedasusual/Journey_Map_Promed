@@ -16,8 +16,6 @@ public class Object : MonoBehaviour
 
     private bool onLine = false;
 
-    bool _debounce = false;
-
     private void OnEnable()
     {
         objTrig.plrEntered = evenTesting;

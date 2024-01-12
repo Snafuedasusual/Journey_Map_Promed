@@ -11,8 +11,6 @@ public class PlayerLogic : MonoBehaviour
 
     [SerializeField] private PlayerInput plrInp;
     [SerializeField] private ObjectTrigger objTrig;
-    private bool trigger = false;
-    private int pressed = 0;
 
     private void Start()
     {
