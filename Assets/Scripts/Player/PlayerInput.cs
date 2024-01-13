@@ -6,10 +6,15 @@ using static PlayerLogic;
 public class PlayerInput : MonoBehaviour
 {
 
+    public delegate void boolSender(bool ans);
+    public boolSender boolThrower;
+    private bool focusPlr = true;
+
     private void Update()
     {
         MovementInputNormalized();
         Interact();
+        CameraComms();
     }
 
 
@@ -55,4 +60,14 @@ public class PlayerInput : MonoBehaviour
         return interacted;
 
     }
+
+    public void CameraComms()
+    {
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            focusPlr = !focusPlr;
+            boolThrower?.Invoke(focusPlr);
+        }
+    }
+
 }
