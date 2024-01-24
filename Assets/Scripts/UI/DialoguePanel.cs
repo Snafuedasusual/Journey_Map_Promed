@@ -18,12 +18,13 @@ public class DialoguePanel : MonoBehaviour
     public bool _aktif = false;
     public int _aktifIndex = 0;
     
-    private int _statetext = 0;
+    private bool _isNumeratorRunning = false;
     public IEnumerator activeCoroutine = null;
     
     public bool text_Debounce_initial = false;
-    private bool text_Debounce = false;
+    public bool text_Debounce = false;
     private float text_Debouncetime = 0.01f;
+
 
 
     private void Update()
@@ -49,6 +50,7 @@ public class DialoguePanel : MonoBehaviour
             _text.text = npcSpeech[_aktifIndex].Substring(0,i);
             yield return new WaitForSecondsRealtime(text_Debouncetime);
         } 
+        activeCoroutine = null;
     }
 
     public void NextLine()
@@ -57,10 +59,11 @@ public class DialoguePanel : MonoBehaviour
         if (activeCoroutine != null && _text.text != npcSpeech[_aktifIndex])
         {
             StopCoroutine(activeCoroutine);
+            activeCoroutine = null;
             _text.text = " ";
             _text.text = npcSpeech[_aktifIndex];
         }
-        if (activeCoroutine != null && text_Debounce == false && _aktifIndex < npcSpeech.Length -1)
+        if (activeCoroutine == null && text_Debounce == false && _aktifIndex < npcSpeech.Length -1)
         {
             _aktifIndex++;
             _text.text = " ";
@@ -68,12 +71,27 @@ public class DialoguePanel : MonoBehaviour
             StartCoroutine(activeCoroutine);
             text_Debounce = true;
         }
-        if (activeCoroutine != null && text_Debounce == false && _aktifIndex == npcSpeech.Length - 1)
+        
+    }
+
+    public void LineBefore()
+    {
+        text_Debounce = false;
+        if(activeCoroutine != null && _text.text != npcSpeech[_aktifIndex])
         {
+            StopCoroutine(activeCoroutine);
+            activeCoroutine = null;
+            _text.text = " ";
             _text.text = npcSpeech[_aktifIndex];
         }
-        Debug.Log(_aktifIndex);
-        Debug.Log(npcSpeech.Length);
+        if (activeCoroutine == null && _aktifIndex > 0 && text_Debounce == false)
+        {
+            _aktifIndex--;
+            _text.text = " ";
+            activeCoroutine = Typing();
+            StartCoroutine(activeCoroutine);
+            text_Debounce = true;
+        }
     }
 
     public void ExitConversation()

@@ -8,7 +8,7 @@ public class ObjectTrigger : MonoBehaviour
 {
     private bool press = false;
     private bool active = false;
-    private bool i_deb = false;
+    private bool i_input_debounce = false;
 
     private GameObject detectedPlayer;
 
@@ -50,9 +50,9 @@ public class ObjectTrigger : MonoBehaviour
 
     void InputInTrigger()
     {
-        if (active == true && inputPlayer != null && inputPlayer.Interact() == true && i_deb == false)
+        if (active == true && inputPlayer != null && inputPlayer.Interact() == true && i_input_debounce == false)
         {
-            i_deb = true;
+            i_input_debounce = true;
             press = true;
             plrEntered?.Invoke(active, press);
             StartCoroutine(WaitSeconds());
@@ -61,7 +61,7 @@ public class ObjectTrigger : MonoBehaviour
         IEnumerator WaitSeconds()
         {
             yield return new WaitForSecondsRealtime(0.5f);
-            i_deb = false;
+            i_input_debounce = false;
         }
     }
 
