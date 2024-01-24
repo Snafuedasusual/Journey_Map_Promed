@@ -6,69 +6,55 @@ using UnityEngine;
 
 public class ObjectTrigger : MonoBehaviour
 {
-    private bool Touched = false;
-    private bool serp = false;
-    private bool actifv = false;
+    private bool press = false;
+    private bool active = false;
     private bool i_deb = false;
+
+    private GameObject detectedPlayer;
 
     private PlayerInput inputPlayer;
     
     public delegate void Entered(bool stat, bool press);
     public Entered plrEntered;
 
-    public delegate void Activation(bool act);
-    public Activation tivate;
+    public delegate void Activation(bool act, GameObject plr);
+    public Activation activate;
 
     
 
     private void Update()
     {
-        InputInTrigger();
         
     }
 
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<PlayerInput>(out PlayerInput plrInput))
+        if (collision.CompareTag("Player"))
         {
-            Touched = true;
-            actifv = true;
-            inputPlayer = plrInput;
+            active = true;
+            detectedPlayer = collision.gameObject;
             ObjActive();
-
-        }
-        else
-        {
-            
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<PlayerInput>(out PlayerInput plrInput))
+        if (collision.CompareTag("Player"))
         {
-            serp = false;
-            Touched = false;
-            i_deb = false;
-            actifv = false;
+            active = false;
+            detectedPlayer = collision.gameObject;
             ObjActive();
-            inputPlayer = null;
-        }
-
-        else
-        {
-            
         }
     }
 
     void InputInTrigger()
     {
-        if (Touched == true && inputPlayer != null && inputPlayer.Interact() == true && i_deb == false)
+        if (active == true && inputPlayer != null && inputPlayer.Interact() == true && i_deb == false)
         {
             i_deb = true;
-            serp = true;
-            plrEntered?.Invoke(Touched, serp);
+            press = true;
+            plrEntered?.Invoke(active, press);
             StartCoroutine(WaitSeconds());
         }
 
@@ -81,13 +67,13 @@ public class ObjectTrigger : MonoBehaviour
 
     void ObjActive()
     {
-        if (actifv == true)
+        if (active == true)
         {
-            tivate?.Invoke(actifv);
+            activate?.Invoke(active, detectedPlayer);
         }
-        if (actifv == false)
+        if (active == false)
         {
-            tivate?.Invoke(actifv);
+            activate?.Invoke(active, detectedPlayer);
         }
     }
 
