@@ -10,6 +10,10 @@ public class PlayerLogic : MonoBehaviour
     public Interactii interacty;
 
     [SerializeField] private PlayerInput plrInp;
+    [SerializeField] private float plrWalkSpeed;
+
+    private bool isWalk = false;
+    private bool faceRight;
 
 
     private void Update()
@@ -21,9 +25,35 @@ public class PlayerLogic : MonoBehaviour
     {
         Vector3 moveDir = new Vector3(plrInp.MovementInputNormalized().x, plrInp.MovementInputNormalized().y, 0);
 
-        transform.up += new Vector3(moveDir.x, moveDir.y, 0);
+        transform.position += new Vector3(moveDir.x, moveDir.y, transform.position.z) * Time.deltaTime * plrWalkSpeed;
 
-        transform.position += new Vector3(moveDir.x, moveDir.y, transform.position.z) * Time.deltaTime * 6f;
+        if (moveDir != Vector3.zero)
+        {
+            isWalk = true;
+        }
+        else
+        {
+            isWalk = false;
+        }
+
+        if (moveDir.x > 0)
+        {
+            faceRight = true;
+        }
+        if (moveDir.x < 0)
+        {
+            faceRight = false;
+        }
+    }
+
+    public bool IsWalking()
+    {
+        return isWalk;
+    }
+
+    public bool FaceDir()
+    {
+        return faceRight;
     }
 
 

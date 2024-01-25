@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class DialoguePanel : MonoBehaviour
 {
@@ -17,8 +18,7 @@ public class DialoguePanel : MonoBehaviour
     
     public bool _aktif = false;
     public int _aktifIndex = 0;
-    
-    private bool _isNumeratorRunning = false;
+
     public IEnumerator activeCoroutine = null;
     
     public bool text_Debounce_initial = false;
