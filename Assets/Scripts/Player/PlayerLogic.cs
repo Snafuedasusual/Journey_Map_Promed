@@ -11,7 +11,11 @@ public class PlayerLogic : MonoBehaviour
 
     [SerializeField] private PlayerInput plrInp;
     [SerializeField] private float plrWalkSpeed;
+    [SerializeField] private FlagVisual _flgVis;
 
+
+
+    [SerializeField] private bool canWalk;
     private bool isWalk = false;
     private bool faceRight;
 
@@ -25,9 +29,16 @@ public class PlayerLogic : MonoBehaviour
     {
         Vector3 moveDir = new Vector3(plrInp.MovementInputNormalized().x, plrInp.MovementInputNormalized().y, 0);
 
-        transform.position += new Vector3(moveDir.x, moveDir.y, transform.position.z) * Time.deltaTime * plrWalkSpeed;
+        if (canWalk)
+        {
+            transform.position += new Vector3(moveDir.x, moveDir.y, transform.position.z) * Time.deltaTime * plrWalkSpeed;
+        }
+        else
+        {
+            moveDir = Vector3.zero;
+        }
 
-        if (moveDir != Vector3.zero)
+        if (moveDir != Vector3.zero && canWalk)
         {
             isWalk = true;
         }

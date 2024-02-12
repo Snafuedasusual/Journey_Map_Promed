@@ -50,6 +50,7 @@ MonoBehaviour:
   objTrig: {fileID: 5408430531174216727}
   objColor: {fileID: 514719602790755283}
   obj: {fileID: 3036814648084592823}
+  isDosen: 0
   _speech: []
 --- !u!70 &5012214535304261640
 CapsuleCollider2D:
@@ -83,7 +84,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01, y: 0.03}
+  m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.2, y: 0.29}
   m_Direction: 0
 --- !u!1 &3036814648084592823
@@ -113,7 +114,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
+  m_LocalScale: {x: 0.23, y: 0.23, z: 0.23}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8371485602800091114}
@@ -237,7 +238,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.1
+  m_Radius: 0.3
 --- !u!114 &5408430531174216727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,3 +251,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0936b44a67a5b4d943628e22e31bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectSpeech: {fileID: 7441063221338982910}

@@ -8,6 +8,10 @@ public class Object : MonoBehaviour
     [SerializeField] private ObjectTrigger objTrig;
     [SerializeField] private SpriteRenderer objColor;
     [SerializeField] private GameObject obj;
+    [SerializeField] private bool isDosen;
+
+    private GameObject activeReceiver;
+    private Object activeTransmitter;
 
     [SerializeField] private string[] _speech;
 
@@ -28,10 +32,13 @@ public class Object : MonoBehaviour
         objTrig.activate -= ObjActivate;
     }
 
-    void ObjActivate(bool isOn, GameObject plr)
+    void ObjActivate(bool isOn, GameObject plr, Object objectSpeech)
     {
         onLine = isOn;
-        DialoguePanel dialPan = plr.GetComponent<DialoguePanel>();
+        activeReceiver = plr;
+        activeTransmitter = objectSpeech;
+
+        DialoguePanel dialPan = activeReceiver.GetComponent<DialoguePanel>();
 
         if (onLine == true &&  plr != null)
         {
@@ -62,7 +69,10 @@ public class Object : MonoBehaviour
             }
          
             dialPan.dialoguePlace.SetActive(false);
+            activeTransmitter = null;
+            activeReceiver = null;
         }
+
     }
 
     

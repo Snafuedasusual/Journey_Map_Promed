@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ObjectTrigger : MonoBehaviour
 {
+    [SerializeField] private Object objectSpeech;
     private bool press = false;
     private bool active = false;
     private bool i_input_debounce = false;
@@ -17,7 +18,7 @@ public class ObjectTrigger : MonoBehaviour
     public delegate void Entered(bool stat, bool press);
     public Entered plrEntered;
 
-    public delegate void Activation(bool act, GameObject plr);
+    public delegate void Activation(bool act, GameObject plr, Object objectSpeech);
     public Activation activate;
 
     
@@ -69,11 +70,11 @@ public class ObjectTrigger : MonoBehaviour
     {
         if (active == true)
         {
-            activate?.Invoke(active, detectedPlayer);
+            activate?.Invoke(active, detectedPlayer, objectSpeech);
         }
         if (active == false)
         {
-            activate?.Invoke(active, detectedPlayer);
+            activate?.Invoke(active, detectedPlayer, objectSpeech);
         }
     }
 

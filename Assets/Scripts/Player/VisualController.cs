@@ -8,6 +8,7 @@ public class VisualController : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] PlayerLogic plrLog;
     [SerializeField] PlayerInput plrInp;
+    [SerializeField] PlrAudioSrc plrAudioSrc;
 
 
     private void Update()
@@ -38,5 +39,10 @@ public class VisualController : MonoBehaviour
         {
             animator.SetBool("walking", false);
         }
+    }
+
+    private void StepSounds()
+    {
+        plrAudioSrc.footSteps();
     }
 }
