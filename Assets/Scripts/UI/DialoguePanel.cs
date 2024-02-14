@@ -14,6 +14,7 @@ public class DialoguePanel : MonoBehaviour
     [SerializeField] private GameObject _back;
     [SerializeField] private GameObject _exit;
 
+    public int[] binaryChoiceLine;
     public string[] npcSpeech;
     
     public bool _aktif = false;

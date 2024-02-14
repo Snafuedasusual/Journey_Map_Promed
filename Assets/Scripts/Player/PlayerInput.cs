@@ -5,9 +5,10 @@ using static PlayerLogic;
 
 public class PlayerInput : MonoBehaviour
 {
+    [SerializeField] private PlayerLogic logicPlr;
 
-    public delegate void boolSender(bool ans);
-    public boolSender boolThrower;
+    public delegate void cameraComms(bool ans, bool canWalk);
+    public cameraComms boolThrower;
     private bool focusPlr = true;
 
     private void Update()
@@ -66,7 +67,7 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.V))
         {
             focusPlr = !focusPlr;
-            boolThrower?.Invoke(focusPlr);
+            boolThrower?.Invoke(focusPlr, logicPlr.canWalk);
         }
     }
 

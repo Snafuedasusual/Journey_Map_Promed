@@ -21,7 +21,7 @@ public class AudioController : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,7 +32,7 @@ public class AudioController : MonoBehaviour
            _audSrc = _audioFolder.transform.GetChild(Random.Range(0,_audioFolder.transform.childCount)).GetComponent<AudioSource>();
             if (_audSrc.CompareTag("Ambiance"))
             {
-                StartCoroutine(FadeIn(fadeTime));
+                StartCoroutine(FadeIn(_audSrc, fadeTime));
                 _audSrc.loop = true;
             }
             if (_audSrc.CompareTag("Stinger"))
@@ -46,31 +46,30 @@ public class AudioController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            StartCoroutine(FadeOut(fadeTime));
+            StartCoroutine(FadeOut(_audSrc, fadeTime));
             _inside = false;
         }
     }
 
 
-    private IEnumerator FadeOut(float FadeTime)
+    private IEnumerator FadeOut(AudioSource sfxsrc, float FadeTime)
     {
-        float startVolume = _audSrc.volume;
-        while (_audSrc.volume > 0)
+        float startVolume = sfxsrc.volume;
+        while (sfxsrc.volume > 0)
         {
-            _audSrc.volume -= startVolume * Time.deltaTime / FadeTime;
+            sfxsrc.volume -= startVolume * Time.deltaTime / FadeTime;
             yield return null;
         }
-        _audSrc.Stop();
-        _audSrc = null;
+        sfxsrc.Stop();
     }
 
-    private IEnumerator FadeIn(float FadeTime)
+    private IEnumerator FadeIn(AudioSource sfxsrc, float FadeTime)
     {
-        _audSrc.Play();
-        _audSrc.volume = 0f;
-        while (_audSrc.volume < 1)
+        sfxsrc.Play();
+        sfxsrc.volume = 0f;
+        while (sfxsrc.volume < 1)
         {
-            _audSrc.volume += Time.deltaTime / FadeTime;
+            sfxsrc.volume += Time.deltaTime / FadeTime;
             yield return null;
         }
     }
@@ -79,13 +78,20 @@ public class AudioController : MonoBehaviour
     {
       while (_inside == true)
         {
-          yield return new WaitForSecondsRealtime(Random.Range(5f, 10f));
+            yield return new WaitForSecondsRealtime(Random.Range(5f, 10f));
           if (_audSrc.CompareTag("Stinger") && _audSrc.isPlaying == false)
           {
             _audSrc = _audioFolder.transform.GetChild(Random.Range(0, _audioFolder.transform.childCount)).GetComponent<AudioSource>();
-            StartCoroutine(FadeIn(fadeTime));
-            _audSrc.loop = false;
-          }
+            float _clipLength = _audSrc.clip.length - 10;
+            StartCoroutine(FadeIn(_audSrc, fadeTime));
+            StartCoroutine(StingerNearEnd(_audSrc, _clipLength));
+           }
         }
+    }
+
+    IEnumerator StingerNearEnd(AudioSource _sfxSrc, float remainingSecs)
+    {
+        yield return new WaitForSeconds(remainingSecs);
+        StartCoroutine(FadeOut(_sfxSrc, fadeTime));
     }
 }

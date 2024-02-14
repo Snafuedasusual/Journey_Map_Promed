@@ -12,10 +12,10 @@ public class PlayerLogic : MonoBehaviour
     [SerializeField] private PlayerInput plrInp;
     [SerializeField] private float plrWalkSpeed;
     [SerializeField] private FlagVisual _flgVis;
+    [SerializeField] private DialoguePanel _dialoguePanel;
 
 
-
-    [SerializeField] private bool canWalk;
+    public bool canWalk = true;
     private bool isWalk = false;
     private bool faceRight;
 
@@ -66,8 +66,16 @@ public class PlayerLogic : MonoBehaviour
     {
         return faceRight;
     }
-
-
-
     
+    public bool CheckIfConversation()
+    {
+        if (_dialoguePanel.dialoguePlace.activeSelf == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

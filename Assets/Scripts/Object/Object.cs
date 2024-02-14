@@ -6,14 +6,17 @@ using UnityEngine.WSA;
 public class Object : MonoBehaviour
 {
     [SerializeField] private ObjectTrigger objTrig;
-    [SerializeField] private SpriteRenderer objColor;
+    [SerializeField] private Sprite objFlag;
+    [SerializeField] private Sprite objImage;
     [SerializeField] private GameObject obj;
     [SerializeField] private bool isDosen;
+    [SerializeField] private bool isDosenST5;
 
     private GameObject activeReceiver;
     private Object activeTransmitter;
 
     [SerializeField] private string[] _speech;
+    [SerializeField] private int[] _binaryChoiceLine;
 
     PlayerInput textPanel;
 
@@ -24,7 +27,7 @@ public class Object : MonoBehaviour
 
     private void OnEnable()
     {
-        objTrig.activate = ObjActivate;
+        objTrig.activate += ObjActivate;
     }
 
     private void OnDisable ()
@@ -75,11 +78,13 @@ public class Object : MonoBehaviour
 
     }
 
-    
+    public string[] DialogueStrings()
+    {
+        return _speech;
+    }
 
-
-
-
-
-
+    public int[] BinaryChoiceLines()
+    {
+        return _binaryChoiceLine;
+    }
 }

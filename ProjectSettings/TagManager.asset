@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Stinger
   - Ambiance
+  - FadeCanvas
   layers:
   - Default
   - TransparentFX

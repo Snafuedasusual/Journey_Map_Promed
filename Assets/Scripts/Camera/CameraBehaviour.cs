@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CameraBehaviour : MonoBehaviour
 {
+    [SerializeField] PlayerLogic playerLogic;
     [SerializeField] private CinemachineVirtualCamera worldcam;
     [SerializeField] private CinemachineVirtualCamera playercam;
     [SerializeField] private PlayerInput plrInput;
@@ -15,9 +16,20 @@ public class CameraBehaviour : MonoBehaviour
         plrInput.boolThrower = CameraAdjust;
     }
 
-    void CameraAdjust(bool focusPlr)
+    private void OnDisable ()
     {
-        if (focusPlr == true)
+        plrInput.boolThrower -= CameraAdjust;
+    }
+
+    private void Update()
+    {
+        CheckIfInCutscene();
+        CheckIfSpeaking();
+    }
+
+    void CameraAdjust(bool focusPlr, bool canWalk)
+    {
+        if (focusPlr == true && canWalk == true)
         {
 
             playercam.Priority = 1;
@@ -25,11 +37,29 @@ public class CameraBehaviour : MonoBehaviour
            
         }
 
-        if (focusPlr == false)
+        if (focusPlr == false && canWalk == true)
         {
             playercam.Priority = 0;
             worldcam.Priority = 1;
 
+        }
+    }
+
+    void CheckIfInCutscene()
+    {
+        if(playerLogic.canWalk == false && worldcam.Priority > playercam.Priority)
+        {
+            playercam.Priority = 1;
+            worldcam.Priority = 0;
+        }
+    }
+
+    void CheckIfSpeaking()
+    {
+        if (playerLogic.CheckIfConversation() == true && worldcam.Priority > playercam.Priority)
+        {
+            playercam.Priority = 1;
+            worldcam.Priority = 0;
         }
     }
 }

@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _plrLogic: {fileID: 2471853786292721465}
+  _flagVis: {fileID: 0}
 --- !u!1 &4825288038673238993
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,6 +392,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plrInp: {fileID: 7097553832927202219}
   plrWalkSpeed: 0
+  _flgVis: {fileID: 0}
+  canWalk: 0
 --- !u!114 &7097553832927202219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,6 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8a3dc7257baecd4db680c19937f2e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  logicPlr: {fileID: 0}
 --- !u!114 &3094848979284839198
 MonoBehaviour:
   m_ObjectHideFlags: 0
