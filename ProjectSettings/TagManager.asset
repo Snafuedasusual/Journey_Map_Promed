@@ -7,6 +7,7 @@ TagManager:
   - Stinger
   - Ambiance
   - FadeCanvas
+  - FlagLogic
   layers:
   - Default
   - TransparentFX

@@ -11,6 +11,7 @@ public class Object : MonoBehaviour
     [SerializeField] private GameObject obj;
     [SerializeField] private bool isDosen;
     [SerializeField] private bool isDosenST5;
+    [SerializeField] private string objName;
 
     private GameObject activeReceiver;
     private Object activeTransmitter;
@@ -41,14 +42,20 @@ public class Object : MonoBehaviour
         activeReceiver = plr;
         activeTransmitter = objectSpeech;
 
+        CheckFlags(plr);
         DialoguePanel dialPan = activeReceiver.GetComponent<DialoguePanel>();
 
         if (onLine == true &&  plr != null)
         {
             dialPan.dialoguePlace.SetActive(true);
             dialPan.npcSpeech = _speech;
+            dialPan.binaryChoiceLine = _binaryChoiceLine;
             dialPan._aktif = true;
             dialPan.text_Debounce_initial = false;
+            dialPan.transmitter = activeTransmitter;
+            dialPan.plr = activeReceiver;
+            dialPan.transmitterFlag = objFlag;
+            dialPan.transmitterImage = objImage;
         }
         if (onLine == false && plr != null)
         {
@@ -57,6 +64,8 @@ public class Object : MonoBehaviour
             dialPan.text_Debounce_initial = false;
             dialPan._text.text = " ";
             dialPan._aktifIndex = 0;
+            dialPan.transmitter = null;
+            dialPan.plr = null;
 
             if (dialPan.activeCoroutine != null)
             {
@@ -70,11 +79,34 @@ public class Object : MonoBehaviour
                 dialPan.npcSpeech = null;
 
             }
-         
+            dialPan.binaryChoiceLine = null;
             dialPan.dialoguePlace.SetActive(false);
             activeTransmitter = null;
             activeReceiver = null;
         }
+
+    }
+
+    SpriteRenderer CheckFlags(GameObject plr)
+    {
+        GameObject FlagLogicObj = null;
+        SpriteRenderer FlagVisual = null;
+
+
+        for (int i = 0; i < plr.transform.childCount; i++)
+        {
+            if (plr.transform.GetChild(i).gameObject.CompareTag("FlagLogic"))
+            {
+                FlagLogicObj = plr.transform.GetChild(i).gameObject;
+                FlagVisual = FlagLogicObj.GetComponent<SpriteRenderer>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        return FlagVisual;
 
     }
 
@@ -86,5 +118,10 @@ public class Object : MonoBehaviour
     public int[] BinaryChoiceLines()
     {
         return _binaryChoiceLine;
+    }
+
+    public bool IsDosenST5()
+    {
+        return isDosenST5;
     }
 }
