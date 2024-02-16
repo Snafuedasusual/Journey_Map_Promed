@@ -41,7 +41,6 @@ public class Stage3StandOff : MonoBehaviour
     {
         transparent = new Color(rColor, gColor, bColor, 0f);
         opaque = new Color(rColor, gColor, bColor, 1);
-        Debug.Log(dosenSt3.GetComponent<Object>().DialogueStrings().Length);
     }
 
     private void Update()
@@ -75,7 +74,7 @@ public class Stage3StandOff : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (s_fadeScreen.IsFading() == false)
+            if (s_fadeScreen.IsFading() == false && _stage == 0)
             {
                 StartCoroutine(s_fadeScreen.FadeOut(fadeTime, rColor, gColor, bColor));
                 detectedPlr = collision.gameObject;
