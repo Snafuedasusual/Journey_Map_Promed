@@ -10,7 +10,7 @@ public class DialoguePanel : MonoBehaviour
     public GameObject dialoguePlace;
     public Text _text;
     public Object transmitter;
-    public Text transmitterName;
+    public string transmitterName;
     public GameObject plr;
     public Sprite transmitterImage;
     public Sprite transmitterFlag;
@@ -21,11 +21,17 @@ public class DialoguePanel : MonoBehaviour
     [SerializeField] private GameObject _yes;
     [SerializeField] private GameObject _no;
 
+    [SerializeField] private Text _nameOnText;
+    [SerializeField] private Image _bustImage;
+
+    private bool binaryChoiceAnswer;
+
     public int[] binaryChoiceLine;
     public string[] npcSpeech;
     
     public bool _aktif = false;
     public int _aktifIndex = 0;
+    public bool conversationDone = true;
 
     public IEnumerator activeCoroutine = null;
     
@@ -38,7 +44,7 @@ public class DialoguePanel : MonoBehaviour
     private void Update()
     {
         TextToUI();
-        CanContinueorExitorGoback();
+        TransmitterDetails();
     }
 
     private void TextToUI()
@@ -54,40 +60,49 @@ public class DialoguePanel : MonoBehaviour
 
     IEnumerator Typing()
     {
-        for(int i = 0; i < npcSpeech[_aktifIndex].Length + 1; i++)
+        CanBinaryChoice();
+        CanContinueorExitorGoback();
+        for (int i = 0; i < npcSpeech[_aktifIndex].Length + 1; i++)
         {
             _text.text = npcSpeech[_aktifIndex].Substring(0,i);
             yield return new WaitForSecondsRealtime(text_Debouncetime);
         } 
         activeCoroutine = null;
-        CanBinaryChoice();
     }
 
     public void PositiveResponse()
     {
-        if (transmitter.IsDosenST5() == true)
+        text_Debounce = false;
+        if (dialoguePlace.activeSelf == true)
         {
-            GameObject FlagLogicObj = null;
-            SpriteRenderer FlagRenderer = null;
-            for(int i = 0; i < plr.transform.childCount; i++)
+            if (transmitter.IsDosenST5() == true)
             {
-                if (plr.transform.GetChild(i).gameObject.CompareTag("FlagLogic"))
+                GameObject FlagLogicObj = null;
+                SpriteRenderer FlagRenderer = null;
+                for (int i = 0; i < plr.transform.childCount; i++)
                 {
-                    FlagLogicObj = plr.transform.GetChild(i).gameObject;
-                    FlagRenderer = FlagLogicObj.GetComponentInChildren<SpriteRenderer>();
-                    FlagRenderer.sprite = transmitterFlag;
-                }
-                else
-                {
-
+                    if (plr.transform.GetChild(i).gameObject.CompareTag("FlagLogic"))
+                    {
+                        FlagLogicObj = plr.transform.GetChild(i).gameObject;
+                        FlagRenderer = FlagLogicObj.GetComponentInChildren<SpriteRenderer>();
+                        FlagRenderer.sprite = transmitterFlag;
+                        
+                    }
                 }
             }
+            if(transmitter.IsUltimateEvil() == true)
+            {
+                binaryChoiceAnswer = true;
+                Debug.Log("work");
+            }
         }
+        
     }
 
     public void NegativeResponse()
     {
-        if(activeCoroutine != null && _text.text != npcSpeech[_aktifIndex])
+        text_Debounce = false;
+        if (activeCoroutine != null && _text.text != npcSpeech[_aktifIndex])
         {
             StopCoroutine(activeCoroutine);
             activeCoroutine = null;
@@ -111,18 +126,25 @@ public class DialoguePanel : MonoBehaviour
             _text.text = " ";
             _aktifIndex = 0;
             _aktif = false;
+            conversationDone = true;
+        }
+        if (transmitter.IsUltimateEvil() == true)
+        {
+            Debug.Log("work");
+            binaryChoiceAnswer = false;
         }
     }
 
     public void NextLine()
     {
         text_Debounce = false;
-        if (activeCoroutine != null && _text.text != npcSpeech[_aktifIndex])
+        if (activeCoroutine != null && text_Debounce == true)
         {
             StopCoroutine(activeCoroutine);
             activeCoroutine = null;
             _text.text = " ";
             _text.text = npcSpeech[_aktifIndex];
+            text_Debounce = false;
         }
         if (activeCoroutine == null && text_Debounce == false && _aktifIndex < npcSpeech.Length -1)
         {
@@ -164,6 +186,7 @@ public class DialoguePanel : MonoBehaviour
         _text.text = " ";
         _aktifIndex = 0;
         _aktif = false;
+        conversationDone = true;
     }
 
     private void CanContinueorExitorGoback()
@@ -196,26 +219,11 @@ public class DialoguePanel : MonoBehaviour
 
     private void CanBinaryChoice()
     {
-        if ((binaryChoiceLine.Length - 1) == 0 && transmitter != null)
+        if (dialoguePlace.activeSelf == true && binaryChoiceLine != null || dialoguePlace.activeSelf == true && binaryChoiceLine.Length == 0)
         {
-            if(binaryChoiceLine[0] == _aktifIndex)
+            if ((binaryChoiceLine.Length - 1) == 0 && transmitter != null && transmitter.CanBinaryChoice() == true)
             {
-                _yes.SetActive(true);
-                _no.SetActive(true);
-            }
-            else
-            {
-                _yes.SetActive(false);
-                _no.SetActive(false);
-            }
-
-        }
-
-        if(binaryChoiceLine.Length >= 0 && transmitter != null)
-        {
-            for(int i = 0; i < binaryChoiceLine.Length - 1; i++)
-            {
-                if (binaryChoiceLine[i] == _aktifIndex)
+                if (binaryChoiceLine[0] == _aktifIndex)
                 {
                     _yes.SetActive(true);
                     _no.SetActive(true);
@@ -225,21 +233,71 @@ public class DialoguePanel : MonoBehaviour
                     _yes.SetActive(false);
                     _no.SetActive(false);
                 }
+
+            }
+
+            if (binaryChoiceLine.Length >= 0 && transmitter != null && transmitter.CanBinaryChoice() == true)
+            {
+                for (int i = 0; i < binaryChoiceLine.Length - 1; i++)
+                {
+                    if (binaryChoiceLine[i] == _aktifIndex)
+                    {
+                        _yes.SetActive(true);
+                        _no.SetActive(true);
+                    }
+                    else
+                    {
+                        _yes.SetActive(false);
+                        _no.SetActive(false);
+                    }
+                }
+            }
+
+            else
+            {
+                _yes.SetActive(false);
+                _no.SetActive(false);
             }
         }
+        
 
-        else
+        if (dialoguePlace.activeSelf == false)
         {
             _yes.SetActive(false);
             _no.SetActive(false);
         }
+    }
 
-        if (transmitter != null)
+    private void TransmitterDetails()
+    {
+        if (dialoguePlace.activeSelf == true)
         {
-            binaryChoiceLine = null;
+            if (transmitterName != null)
+            {
+                _nameOnText.text = transmitterName;
+            }
+            if (transmitterImage != null)
+            {
+                _bustImage.sprite = transmitterImage;
+                _bustImage.enabled = true;
+            }
+        }
+        else
+        {
+            if (transmitterImage == null)
+            {
+                _bustImage.sprite = null;
+                _bustImage.enabled = false;
+            }
+            if (transmitterName == null)
+            {
+                _nameOnText.text = "Stranger";
+            }
         }
     }
 
-
-
+    public bool BinaryChoiceAnswer()
+    {
+        return binaryChoiceAnswer;
+    }
 }

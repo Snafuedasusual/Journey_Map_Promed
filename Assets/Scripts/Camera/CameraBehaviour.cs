@@ -62,5 +62,15 @@ public class CameraBehaviour : MonoBehaviour
             worldcam.Priority = 0;
         }
     }
+
+    public void ForcePlayerCam(bool turnOn)
+    {
+        if (turnOn == true && worldcam.Priority > playercam.Priority)
+        {
+            playercam.Priority = 1;
+            worldcam.Priority = 0;
+            worldcam.enabled = false;
+        }
+    }
 }
 

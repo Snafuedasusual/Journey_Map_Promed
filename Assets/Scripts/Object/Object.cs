@@ -11,7 +11,10 @@ public class Object : MonoBehaviour
     [SerializeField] private GameObject obj;
     [SerializeField] private bool isDosen;
     [SerializeField] private bool isDosenST5;
+    [SerializeField] private bool isUltimateEvil;
+    [SerializeField] private bool canBinaryChoice;
     [SerializeField] private string objName;
+    [SerializeField] private GameObject hasInteracted;
 
     private GameObject activeReceiver;
     private Object activeTransmitter;
@@ -25,6 +28,11 @@ public class Object : MonoBehaviour
     private Vector3 sizeAdd = new Vector3(0.1f, 0.1f, 0.1f);
 
     private bool onLine = false;
+
+    private void Update()
+    {
+        CheckConversation();
+    }
 
     private void OnEnable()
     {
@@ -54,8 +62,10 @@ public class Object : MonoBehaviour
             dialPan.text_Debounce_initial = false;
             dialPan.transmitter = activeTransmitter;
             dialPan.plr = activeReceiver;
+            dialPan.transmitterName = objName;
             dialPan.transmitterFlag = objFlag;
             dialPan.transmitterImage = objImage;
+            dialPan.conversationDone = false;
         }
         if (onLine == false && plr != null)
         {
@@ -79,7 +89,7 @@ public class Object : MonoBehaviour
                 dialPan.npcSpeech = null;
 
             }
-            dialPan.binaryChoiceLine = null;
+            System.Array.Clear(dialPan.binaryChoiceLine,0, dialPan.binaryChoiceLine.Length);
             dialPan.dialoguePlace.SetActive(false);
             activeTransmitter = null;
             activeReceiver = null;
@@ -123,5 +133,32 @@ public class Object : MonoBehaviour
     public bool IsDosenST5()
     {
         return isDosenST5;
+    }
+
+    public bool CanBinaryChoice()
+    {
+        return canBinaryChoice;
+    }
+
+    public GameObject HasInteracted()
+    {
+        return hasInteracted;
+    }
+
+    void CheckConversation()
+    {
+        if (activeReceiver != null && hasInteracted != null && hasInteracted.activeSelf == false && isDosen == true)
+        {
+            DialoguePanel dialPan = activeReceiver.GetComponent<DialoguePanel>();
+            if (dialPan.conversationDone == true)
+            {
+                hasInteracted.SetActive(true);
+            }
+        }
+    }
+
+    public bool IsUltimateEvil()
+    {
+        return isUltimateEvil;
     }
 }

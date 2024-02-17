@@ -339,6 +339,50 @@ MonoBehaviour:
   _plrLogic: {fileID: 0}
   _plrInput: {fileID: 0}
   _visualController: {fileID: 0}
+--- !u!1 &6227723883459935527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4661867702229839474}
+  - component: {fileID: 78824450482667050}
+  m_Layer: 0
+  m_Name: CheckDialogue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4661867702229839474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227723883459935527}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -11.66, y: 3.74, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3326772087925104361}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &78824450482667050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227723883459935527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d34dc3a2c49bd644836235329911a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6313483948247553811
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,6 +420,7 @@ Transform:
   - {fileID: 3592549350238986102}
   - {fileID: 1773185883062360001}
   - {fileID: 7033546386677700818}
+  - {fileID: 4661867702229839474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2471853786292721465
@@ -393,6 +438,7 @@ MonoBehaviour:
   plrInp: {fileID: 7097553832927202219}
   plrWalkSpeed: 0
   _flgVis: {fileID: 0}
+  _dialoguePanel: {fileID: 0}
   canWalk: 0
 --- !u!114 &7097553832927202219
 MonoBehaviour:
@@ -421,12 +467,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialoguePlace: {fileID: 0}
   _text: {fileID: 0}
+  transmitter: {fileID: 0}
+  transmitterName: 
+  plr: {fileID: 0}
+  transmitterImage: {fileID: 0}
+  transmitterFlag: {fileID: 0}
   _continue: {fileID: 0}
   _back: {fileID: 0}
   _exit: {fileID: 0}
+  _yes: {fileID: 0}
+  _no: {fileID: 0}
+  _nameOnText: {fileID: 0}
+  _bustImage: {fileID: 0}
+  binaryChoiceLine: 
   npcSpeech: []
   _aktif: 0
   _aktifIndex: 0
+  conversationDone: 1
   text_Debounce_initial: 0
   text_Debounce: 0
 --- !u!50 &8904396481027670630
