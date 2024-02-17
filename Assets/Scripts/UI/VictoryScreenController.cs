@@ -25,6 +25,7 @@ public class VictoryScreenController : MonoBehaviour
         victory.SetActive(false);
         victoryText.SetActive(false);
         tryAgain.SetActive(false);
+        transform.gameObject.SetActive(false);
         screen.color = new Color(0f,0f,0f,255f);
         plrLogic.canWalk = true;
         initiializerStages = 0;
@@ -70,5 +71,10 @@ public class VictoryScreenController : MonoBehaviour
             plrLogic.canWalk = false;
             victory.SetActive(true);
         }
+    }
+
+    public void negativeResponse()
+    {
+        transform.gameObject.SetActive(false);
     }
 }

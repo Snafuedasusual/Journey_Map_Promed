@@ -16,6 +16,8 @@ public class PassOrNot : MonoBehaviour
 
     [SerializeField] GameObject Player;
 
+    [SerializeField] SpriteRenderer flagvis;
+
     [SerializeField] GameObject startPlrPos;
 
     private void Update()
@@ -81,6 +83,10 @@ public class PassOrNot : MonoBehaviour
                 _stages[f].interactedDosens = 0;
             }
             _checkDial.finalBossAnswer = 0;
+
+            flagvis.sprite = null;
+            transform.gameObject.SetActive(false);
+            Player.GetComponent<PlayerLogic>().canWalk = true;
         }
     }
 }

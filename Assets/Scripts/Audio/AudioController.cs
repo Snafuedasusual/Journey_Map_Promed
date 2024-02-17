@@ -39,6 +39,11 @@ public class AudioController : MonoBehaviour
             {
                 StartCoroutine(StingerActive());
             }
+            if (_audSrc.CompareTag("Music"))
+            {
+                StartCoroutine(FadeIn(_audSrc, fadeTime));
+                _audSrc.loop = true;
+            }
         }
     }
 
@@ -78,7 +83,7 @@ public class AudioController : MonoBehaviour
     {
       while (_inside == true)
         {
-            yield return new WaitForSecondsRealtime(Random.Range(5f, 10f));
+            yield return new WaitForSecondsRealtime(Random.Range(15f, 30f));
           if (_audSrc.CompareTag("Stinger") && _audSrc.isPlaying == false)
           {
             _audSrc = _audioFolder.transform.GetChild(Random.Range(0, _audioFolder.transform.childCount)).GetComponent<AudioSource>();
@@ -94,4 +99,6 @@ public class AudioController : MonoBehaviour
         yield return new WaitForSeconds(remainingSecs);
         StartCoroutine(FadeOut(_sfxSrc, fadeTime));
     }
+
+
 }

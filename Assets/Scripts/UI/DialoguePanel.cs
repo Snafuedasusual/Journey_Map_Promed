@@ -127,6 +127,7 @@ public class DialoguePanel : MonoBehaviour
             _aktifIndex = 0;
             _aktif = false;
             conversationDone = true;
+            plr.GetComponent<PlayerLogic>().canWalk = true;
         }
         if (transmitter.IsUltimateEvil() == true)
         {
@@ -186,6 +187,7 @@ public class DialoguePanel : MonoBehaviour
         _text.text = " ";
         _aktifIndex = 0;
         _aktif = false;
+        plr.GetComponent<PlayerLogic>().canWalk = true;
         conversationDone = true;
     }
 

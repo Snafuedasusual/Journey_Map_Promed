@@ -13,6 +13,8 @@ public class EvilAppears : MonoBehaviour
     [SerializeField] private CameraBehaviour _cameraBehaviour;
     [SerializeField] private GameObject _passOrNot;
     [SerializeField] private GameObject victoryController;
+    [SerializeField] private GameObject _currentAudio;
+    [SerializeField] private GameObject _bossMusic;
 
     private GameObject detectedPlr;
 
@@ -44,6 +46,11 @@ public class EvilAppears : MonoBehaviour
             initializerStages++;
             _passOrNot.SetActive(true);
             victoryController.SetActive(true);
+            _currentAudio.SetActive(false);
+            _currentAudio.GetComponent<AudioSource>().Stop();
+            _bossMusic.SetActive(true);
+            _bossMusic.GetComponent<AudioSource>().Play();
+            isActive = true;
         }
     }
 
@@ -54,7 +61,11 @@ public class EvilAppears : MonoBehaviour
         StopCoroutine(activeCoroutine);
         activeCoroutine = null;
         _passOrNot.SetActive(false);
+        _currentAudio.SetActive(true);
         victoryController.SetActive(false);
+        _bossMusic.SetActive(false);
+        _bossMusic.GetComponent<AudioSource>().Stop();
+        isActive = false;
     }
 
     IEnumerator ForceCamPlayer()
@@ -67,6 +78,7 @@ public class EvilAppears : MonoBehaviour
 
     IEnumerator FadeIn()
     {
+        _bossMusic.GetComponent<AudioSource>().Play();
         float fadeColor = UltimateEvilRenderer.GetComponent<SpriteRenderer>().color.a;
         if (ultimateEvilColor.a < 1.0f)
         {
@@ -106,4 +118,26 @@ public class EvilAppears : MonoBehaviour
         }
     }
 
+    public void ReEnableAudio()
+    {
+        if (isActive == true)
+        {
+            _currentAudio.SetActive(true);
+            _bossMusic.SetActive(false);
+            _bossMusic.GetComponent<AudioSource>().Stop();
+            isActive = false;
+        }
+    }
+
+    public void endingMusic()
+    {
+        if (isActive == true)
+        {
+            _currentAudio.SetActive(true);
+            _currentAudio.GetComponent<AudioSource>().Play();
+            _bossMusic.SetActive(false);
+            _bossMusic.GetComponent<AudioSource>().Stop();
+            isActive = false;
+        }
+    }
 }

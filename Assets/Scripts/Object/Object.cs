@@ -88,9 +88,57 @@ public class Object : MonoBehaviour
                 dialPan.npcSpeech = null;
 
             }
-            System.Array.Clear(dialPan.binaryChoiceLine,0, dialPan.binaryChoiceLine.Length);
+            dialPan.transmitterName = null;
+            dialPan.transmitterFlag = null;
+            dialPan.transmitterImage = null;
             dialPan.dialoguePlace.SetActive(false);
             activeTransmitter = null;
+            plr.GetComponent<PlayerLogic>().canWalk = true;
+            activeReceiver = null;
+        }
+        if(isUltimateEvil == true && onLine == true && plr != null)
+        {
+            plr.GetComponent<PlayerLogic>().canWalk = false;
+            dialPan.dialoguePlace.SetActive(true);
+            dialPan.npcSpeech = _speech;
+            dialPan.binaryChoiceLine = _binaryChoiceLine;
+            dialPan._aktif = true;
+            dialPan.text_Debounce_initial = false;
+            dialPan.transmitter = activeTransmitter;
+            dialPan.plr = activeReceiver;
+            dialPan.transmitterName = objName;
+            dialPan.transmitterFlag = objFlag;
+            dialPan.transmitterImage = objImage;
+            dialPan.conversationDone = false;
+        }
+        if (isUltimateEvil == true && onLine == false && plr != null)
+        {
+            dialPan._aktif = false;
+            dialPan.text_Debounce_initial = false;
+            dialPan.text_Debounce_initial = false;
+            dialPan._text.text = " ";
+            dialPan._aktifIndex = 0;
+            dialPan.transmitter = null;
+            dialPan.plr = null;
+
+            if (dialPan.activeCoroutine != null)
+            {
+                StopCoroutine(dialPan.activeCoroutine);
+                dialPan.activeCoroutine = null;
+                dialPan.npcSpeech = null;
+            }
+            else
+            {
+                dialPan.activeCoroutine = null;
+                dialPan.npcSpeech = null;
+
+            }
+            dialPan.transmitterName = null;
+            dialPan.transmitterFlag = null;
+            dialPan.transmitterImage = null;
+            dialPan.dialoguePlace.SetActive(false);
+            activeTransmitter = null;
+            plr.GetComponent<PlayerLogic>().canWalk = true;
             activeReceiver = null;
         }
 
