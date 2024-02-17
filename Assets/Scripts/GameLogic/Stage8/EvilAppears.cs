@@ -12,6 +12,7 @@ public class EvilAppears : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera _cam;
     [SerializeField] private CameraBehaviour _cameraBehaviour;
     [SerializeField] private GameObject _passOrNot;
+    [SerializeField] private GameObject victoryController;
 
     private GameObject detectedPlr;
 
@@ -42,6 +43,7 @@ public class EvilAppears : MonoBehaviour
             detectedPlr = collision.gameObject;
             initializerStages++;
             _passOrNot.SetActive(true);
+            victoryController.SetActive(true);
         }
     }
 
@@ -52,6 +54,7 @@ public class EvilAppears : MonoBehaviour
         StopCoroutine(activeCoroutine);
         activeCoroutine = null;
         _passOrNot.SetActive(false);
+        victoryController.SetActive(false);
     }
 
     IEnumerator ForceCamPlayer()
